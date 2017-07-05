@@ -1,0 +1,1 @@
+### 此示例采用Spring Boot + WebSocket实现的推送、聊天室和一对一聊天功能，使用Spring Boot包装的websocket很方便。
