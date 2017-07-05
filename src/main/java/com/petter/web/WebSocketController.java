@@ -12,6 +12,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 
 /**
+ * 推送和聊天室示例
  * @author hongxf
  * @since 2017-05-09 16:46
  */

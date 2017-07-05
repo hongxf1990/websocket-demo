@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>一对一聊天</title>
+</head>
+<body>
+<p>聊天室</p>
+<div>
+    发给谁
+    <input type="radio" name="username" value="hongxf"/>洪
+    <input type="radio" name="username" value="ww"/>王
+</div>
+
+<form id="textForm">
+    <textarea rows="4" cols="60" name="text"></textarea>
+    <input type="submit" value="发送"/>
+</form>
+
+<div id="output"></div>
+
+<script src="/webjars/jquery/3.1.0/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+
+<script>
+    $("#textForm").submit(function (e) {
+        e.preventDefault();
+        var textArea = $("#textForm").find('textarea[name="text"]');
+        var text = textArea.val();
+        sendSpittle(text);
+        textArea.val('');
+    });
+
+    var sock = new SockJS("/chat");
+    var stomp = Stomp.over(sock);
+
+    stomp.connect({},function () {
+        //这里的监听地址必须添加/user，说明是点对点发送
+        stomp.subscribe("/user/topic/one-to-one", function (data) {
+            $("#output").append("<b>接受的信息： " + data.body + "</b><br/>")
+        });
+    });
+
+    function sendSpittle(text) {
+        stomp.send("/chat-one-to-one", {}, JSON.stringify({
+            username: $('input[name=username]:checked').val(),
+            content: text
+        }));
+    }
+</script>
+</body>
+</html>

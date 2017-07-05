@@ -31,12 +31,10 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         //表示客户端订阅地址的前缀信息，也就是客户端接收服务端消息的地址的前缀信息
-        registry.enableSimpleBroker("/topic", "/user");
+        registry.enableSimpleBroker("/topic");
 
-        //服务端接收地址的前缀，意思就是说客户端向服务端发消息的地址的前缀
-        registry.setApplicationDestinationPrefixes("/app");
+        //服务端接收地址的前缀，意思就是说客户端向服务端发消息的地址的前缀, 如果是一对一的话这里必须需要注释掉
+        //registry.setApplicationDestinationPrefixes("/app");
 
-        //一对一指定用户发送消息，添加的前缀
-        registry.setUserDestinationPrefix("/user/");
     }
 }
